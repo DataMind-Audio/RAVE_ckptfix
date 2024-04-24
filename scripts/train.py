@@ -267,7 +267,7 @@ def main(argv):
         # model = model.load_state_dict(loaded['state_dict'])
     
    
-     with open(os.path.join(FLAGS.out_path, RUN_NAME, "config.gin"), "w") as config_out:
+    with open(os.path.join(FLAGS.out_path, RUN_NAME, "config.gin"), "w") as config_out:
         config_out.write(gin.operative_config_str())
 
     trainer.fit(model, train, val, ckpt_path=run)
