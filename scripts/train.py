@@ -256,13 +256,16 @@ def main(argv):
 
     run = rave.core.search_for_run(FLAGS.ckpt)
     if run is not None:
-        print('loading state from file %s'%run)
-        loaded = torch.load(run, map_location='cpu')
+        step = torch.load(run, map_location='cpu')["global_step"]
+        trainer.fit_loop.epoch_loop._batches_that_stepped = step
+       # print('loading state from file %s'%run)
+       # loaded = torch.load(run, map_location='cpu')
         # model = model.load_state_dict(loaded)
-        trainer.fit_loop.epoch_loop._batches_that_stepped = loaded['global_step']
+       # trainer.fit_loop.epoch_loop._batches_that_stepped = loaded['global_step']
         # model = model.load_state_dict(loaded['state_dict'])
     
-    with open(os.path.join(FLAGS.out_path, RUN_NAME, "config.gin"), "w") as config_out:
+   # with open(os.path.join(FLAGS.out_path, RUN_NAME, "config.gin"), "w") as config_out:
+    with open(os.path.join("runs", RUN_NAME, "config.gin"), "w") as config_out:
         config_out.write(gin.operative_config_str())
 
     trainer.fit(model, train, val, ckpt_path=run)
