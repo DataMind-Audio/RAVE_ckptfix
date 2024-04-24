@@ -149,7 +149,7 @@ def main(argv):
         if config_file is None:
             # print('Config file not found in %s'%FLAGS.run)
             gin.parse_config_files_and_bindings(map(add_gin_extension, FLAGS.config), FLAGS.override,)
-        else
+        else:
             gin.parse_config_file(config_file)
     else:
         gin.parse_config_files_and_bindings(
