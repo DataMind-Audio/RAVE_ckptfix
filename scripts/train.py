@@ -147,8 +147,10 @@ def main(argv):
     if FLAGS.ckpt:
         config_file = rave.core.search_for_config(FLAGS.ckpt)
         if config_file is None:
-            print('Config file not found in %s'%FLAGS.run)
-        gin.parse_config_file(config_file)
+            # print('Config file not found in %s'%FLAGS.run)
+            gin.parse_config_files_and_bindings(map(add_gin_extension, FLAGS.config), FLAGS.override,)
+        else
+            gin.parse_config_file(config_file)
     else:
         gin.parse_config_files_and_bindings(
             map(add_gin_extension, FLAGS.config),
@@ -264,8 +266,8 @@ def main(argv):
        # trainer.fit_loop.epoch_loop._batches_that_stepped = loaded['global_step']
         # model = model.load_state_dict(loaded['state_dict'])
     
-   # with open(os.path.join(FLAGS.out_path, RUN_NAME, "config.gin"), "w") as config_out:
-    with open(os.path.join("runs", RUN_NAME, "config.gin"), "w") as config_out:
+   
+     with open(os.path.join(FLAGS.out_path, RUN_NAME, "config.gin"), "w") as config_out:
         config_out.write(gin.operative_config_str())
 
     trainer.fit(model, train, val, ckpt_path=run)
