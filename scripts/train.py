@@ -145,8 +145,11 @@ def main(argv):
 
     # parse configuration
     if FLAGS.ckpt:
-        CKPT_DIR = f'{FLAGS.ckpt}/{RUN_NAME}'
-        config_file = rave.core.search_for_config(CKPT_DIR)
+        # CKPT_DIR = f'{FLAGS.ckpt}/{RUN_NAME}'
+        config_file = None
+        files = glob.glob(os.path.join(FLAGS.ckpt, '*'))
+        if len(files) > 0:
+            config_file = rave.core.search_for_config(files[0])
         if config_file is None:
             # print('Config file not found in %s'%FLAGS.run)
             gin.parse_config_files_and_bindings(map(add_gin_extension, FLAGS.config), FLAGS.override,)
